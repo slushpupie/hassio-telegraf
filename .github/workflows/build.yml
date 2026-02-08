@@ -1,0 +1,22 @@
+name: Docker build and shellcheck
+
+on: [push, pull_request]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: shellcheck
+        run: shellcheck telegraf/run.sh
+      - name: test build 
+        uses: home-assistant/builder@2025.11.0
+        with:
+          args: |
+            --test \
+            --all \
+            --target telegraf 
+
